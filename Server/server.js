@@ -1,5 +1,5 @@
 const extraRouter = require('./routes/extraRouter');
-
+var axios = require("axios").default;
 const express = require('express')
 const cors = require("cors");
 
@@ -16,6 +16,16 @@ app.get('/', async (req, res) => {
     console.log(__dirname +'/static/index.html');
     res.sendFile(__dirname + "/static/index.html");
     
+
+    
+   
+});
+app.get('/stocks', async (req, res) => {
+    console.log('stocks called');
+
+
+
+    res.json({status: 200, message: 'stonks'});
 
     
    

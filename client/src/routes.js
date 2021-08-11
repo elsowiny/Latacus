@@ -23,7 +23,7 @@ import Rtl from "views/Rtl.js";
 import TableList from "views/TableList.js";
 import Typography from "views/Typography.js";
 import UserProfile from "views/UserProfile.js";
-
+import Stocks from "views/Stocks.js";
 var routes = [
   {
     path: "/dashboard",
@@ -34,11 +34,11 @@ var routes = [
     layout: "/admin",
   },
   {
-    path: "/icons",
-    name: "Icons",
+    path: "/stocks",
+    name: "Stocks",
     rtlName: "الرموز",
-    icon: "tim-icons icon-atom",
-    component: Icons,
+    icon: "tim-icons icon-spaceship",
+    component: Stocks,
     layout: "/admin",
   },
   {
@@ -78,16 +78,9 @@ var routes = [
     name: "Typography",
     rtlName: "طباعة",
     icon: "tim-icons icon-align-center",
-    component: Typography,
+    component: Stocks,
     layout: "/admin",
   },
-  {
-    path: "/rtl-support",
-    name: "RTL Support",
-    rtlName: "ار تي ال",
-    icon: "tim-icons icon-world",
-    component: Rtl,
-    layout: "/rtl",
-  },
+ 
 ];
 export default routes;
