@@ -1,29 +1,8 @@
-/*!
 
-=========================================================
-* Black Dashboard React v1.2.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/black-dashboard-react
-* Copyright 2020 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/black-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-// ##############################
-// // // Chart variables
-// #############################
-
-// chartExample1 and chartExample2 options
 let chart1_2_options = {
   maintainAspectRatio: false,
   legend: {
-    display: false,
+    display: true,
   },
   tooltips: {
     backgroundColor: "#f5f5f5",
@@ -82,6 +61,12 @@ let chartExample1 = {
     gradientStroke.addColorStop(1, "rgba(29,140,248,0.2)");
     gradientStroke.addColorStop(0.4, "rgba(29,140,248,0.0)");
     gradientStroke.addColorStop(0, "rgba(29,140,248,0)"); //blue colors
+    gradientStroke.addColorStop(.3, "rgb(238, 235, 221, 0.0)"); //blue colors
+
+    let gradientStroke2 = ctx.createLinearGradient(0, 230, 0, 50);
+    gradientStroke2.addColorStop(0.3, "rgb(129, 0, 0, 0.3)");
+    gradientStroke2.addColorStop(0.1, "rgb(238, 235, 221, 0.1)");
+    gradientStroke2.addColorStop(0.1, "rgb(27, 23, 23, 0.1)");
 
     return {
       labels: [
@@ -97,10 +82,11 @@ let chartExample1 = {
         "OCT",
         "NOV",
         "DEC",
+        'sas'
       ],
       datasets: [
         {
-          label: "My First dataset",
+          label: "Closing",
           fill: true,
           backgroundColor: gradientStroke,
           borderColor: "#1f8ef1",
@@ -114,8 +100,28 @@ let chartExample1 = {
           pointHoverRadius: 4,
           pointHoverBorderWidth: 15,
           pointRadius: 4,
-          data: [100, 70, 90, 70, 85, 60, 75, 60, 90, 80, 110, 100],
+          data: [100, 70, 90, 70, 85, 60, 75, 60, 90, 80, 110, 100, 12],
+        }
+        /*
+        {
+          label: "My second dataset",
+          fill: true,
+          backgroundColor: gradientStroke2,
+          borderColor: "#1f8ef1",
+          borderWidth: 2,
+          borderDash: [],
+          borderDashOffset: 0.0,
+          pointBackgroundColor: "#1f8ef1",
+          pointBorderColor: "rgba(255,255,255,0)",
+          pointHoverBackgroundColor: "#1f8ef1",
+          pointBorderWidth: 20,
+          pointHoverRadius: 4,
+          pointHoverBorderWidth: 15,
+          pointRadius: 4,
+          data: [ 70, 90, 70, 85, 60, 75, 60, 90, 80, 110, 100, 12],
         },
+
+        */
       ],
     };
   },
@@ -211,6 +217,22 @@ let chartExample1 = {
   },
   options: chart1_2_options,
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // #########################################
 // // // used inside src/views/Dashboard.js
