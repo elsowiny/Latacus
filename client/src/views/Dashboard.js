@@ -4,6 +4,7 @@ import '../views/Dashboard.css';
 // nodejs library that concatenates classes
 // react plugin used to create charts
 import { Line, Bar } from "react-chartjs-2";
+import Linechart from '../components/Chart/Linechart';
 
 import useFetch from "customHooks/useFetch";
 // reactstrap components
@@ -57,11 +58,15 @@ const months = {
 
 
 function Dashboard(props) {
-  var url = "http://localhost:5000/stocks/"
-  const stockRes = useFetch('http://localhost:5000/stocks/aapl');
+  var url = "http://localhost:5000/stocks/";
+  var sumUrl = 'http://localhost:5000/stocks/summary/';
+  var newsUrl = 'http://localhost:5000/stocks/news/';
+  //const stockRes = useFetch('http://localhost:5000/stocks/aapl');
 
   const [query, setQuery] = useState('');
   const [historicalData, setHistoricalData] = useState(null);
+  const [summary, setSummary] = useState(null);
+  const [news, setNews] = useState(null);
 
   const textInputRef = useRef();
 
@@ -80,36 +85,69 @@ function Dashboard(props) {
       //console.log(ctx.data);
       //console.log(ctx.data.labels);
       }
+
+      if(historicalData){
+        console.log("we have history");
+        let dates = [];
+       let closingPrice = []
+       let allPrices = historicalData;
+       //console.log(allPrices);
+       allPrices.forEach(function(item, index){
+         var myDate = new Date(item.date * 1000);
+         var month = months[myDate.getMonth()];
+         var day = myDate.getDate();
+         var year = myDate.getFullYear();
+   
+         var myDateString = `${month} ${day} ${year}`;
+         dates.push(myDateString);
+         closingPrice.push(item.close);
+       })
+       //console.log(dates);
+
+       
+     updateDataset(0, closingPrice);
+     update_Y_Axis(dates);
+
+
+      }
       
 
      
 
 
-    },[historicalData]);
+    },[]);
  
-    
-    if(!stockRes.response){
-      return(<div>loading</div>)
-    }
 
-   
 
     const updateDataset = (datasetIndex, newData) => {
-      chartInstance.data.datasets[datasetIndex].data = newData;
+      if(chartInstance){
+        chartInstance.data.datasets[datasetIndex].data = newData;
       chartInstance.update();
+      }
+      else{
+        console.log("no chart instance - still loading");
+      }
+      
     };
 
     const update_Y_Axis = (newLabelData) => {
+      if(chartInstance){
       
       chartInstance.data.labels = newLabelData;
       chartInstance.update();
+      }
+      else{
+        console.log("no chart instance - still loading");
+      }
     };
 
     const retrieveSpecificDataAndSet = async () => {
      // const letsSee = useFetchStock('http://localhost:5000/stocks/aapl');
      const res = await axios.get(url + query);
      if(res.status == 200){
-       const history_data = res.data.data;
+       if(res.data.data){
+        console.log(res.data.data);
+        const history_data = res.data.data;
        setHistoricalData(history_data);
 
        let dates = [];
@@ -131,29 +169,93 @@ function Dashboard(props) {
        
      updateDataset(0, closingPrice);
      update_Y_Axis(dates);
+     console.log(res.data.data);
+     console.log('retrieved')
+
+       }else{
+         console.log('invalid data request');
+       }
        
        
        
-       console.log(res.data.data);
-       console.log('retrieved')
+       
      }
     }
 
     
 
+    const retrieveSummaryProfile = async () => {
+      const res = await axios.get(sumUrl + query);
+      console.log('retrieving summary');
+      console.log(res);
+      if(res.status == 200){
+        if(res.data.data){
+         console.log(res.data.data);
+         setSummary(res.data.data);
+
+         
+ 
+ 
+        }else{
+          console.log('invalid data request');
+        }
+        
+        
+        
+        
+      }
+
+
+
+
+
+
+
+    }
+
+    const retrieveStockNews = async () => {
+      const res = await axios.get(newsUrl + query);
+      console.log('retrieving news');
+      console.log(res);
+      if(res.status == 200){
+        if(res.data.data){
+         console.log(res.data.data);
+         console.log('res data from news source');
+         setNews(res.data.data);
+
+         
+ 
+ 
+        }else{
+          console.log('invalid data request');
+        }
+        
+        
+        
+        
+      }
+
+    }
+
    
 
     const onButtonClick = async () => {
-       console.log(query);
-       console.log(historicalData);
+      // console.log(query);
+       //console.log(historicalData);
        //we update the chart via response and set state as well
        //if done otherwise, the chart will not update 
        //but only on double clicking
+    
+      
+       await retrieveSummaryProfile();
+      
+       
+
+       await retrieveStockNews();
+
+
+
        await retrieveSpecificDataAndSet();
-
-
-
-   
       
       
       if(!chartInstance){
@@ -226,17 +328,16 @@ function Dashboard(props) {
           <Col lg="4">
             <Card className="card-chart">
               <CardHeader>
-                <h5 className="card-category">Total Shipments</h5>
+                <h5 className="card-category">{query && <h5>{query}</h5>}</h5>
                 <CardTitle tag="h3">
-                  <i className="tim-icons icon-bell-55 text-info" /> 763,215
+                 Summary
                 </CardTitle>
               </CardHeader>
               <CardBody>
-                <div className="chart-area">
-                  <Line
-                    data={chartExample2.data}
-                    options={chartExample2.options}
-                  />
+                <div className="chart-area" id="overflowthis">
+                 
+                  <p>{summary && summary.summaryProfile}</p>
+                 
                 </div>
               </CardBody>
             </Card>
@@ -244,18 +345,23 @@ function Dashboard(props) {
           <Col lg="4">
             <Card className="card-chart">
               <CardHeader>
-                <h5 className="card-category">Daily Sales</h5>
-                <CardTitle tag="h3">
-                  <i className="tim-icons icon-delivery-fast text-primary" />{" "}
-                  3,500€
-                </CardTitle>
+                <h5 className="card-category">Financials</h5>
+                
               </CardHeader>
               <CardBody>
                 <div className="chart-area">
-                  <Bar
-                    data={chartExample3.data}
-                    options={chartExample3.options}
-                  />
+                  <ul>
+                    <li>Profit Margins: {summary && summary.profitMargins}</li>
+                    <br />
+                    <li>Book Value: {summary && summary.bookValue}</li>
+                    <br />
+                    <li>Fifty Two Week Change: {summary && summary.fiftyTwoWeekChange}</li>
+                    <br />
+                    <li>Website: <a href={summary && summary.website}> {
+                      summary && summary.website
+                    }</a></li>
+                  </ul>
+                 
                 </div>
               </CardBody>
             </Card>
@@ -270,10 +376,7 @@ function Dashboard(props) {
               </CardHeader>
               <CardBody>
                 <div className="chart-area">
-                  <Line
-                    data={chartExample4.data}
-                    options={chartExample4.options}
-                  />
+                
                 </div>
               </CardBody>
             </Card>
@@ -322,58 +425,20 @@ function Dashboard(props) {
                 <div className="table-full-width table-responsive">
                   <Table>
                     <tbody>
-                      <tr>
-                        <td>
-                          something
-                        </td>
-                        <td>
-                          <p className="title">Update the Documentation</p>
-                          <p className="text-muted">
-                            Dwuamish Head, Seattle, WA 8:47 AM
-                          </p>
-                        </td>
-                        <td className="td-actions text-right">
-                       another smth
-                        </td>
-                      </tr>
-                      
-                      
-                   
-                      <tr>
-                        <td>
-                          <FormGroup check>
-                            <Label check>
-                              <Input defaultValue="" type="checkbox" />
-                              <span className="form-check-sign">
-                                <span className="check" />
-                              </span>
-                            </Label>
-                          </FormGroup>
-                        </td>
-                        <td>
-                          <p className="title">Arival at export process</p>
-                          <p className="text-muted">
-                            Capitol Hill, Seattle, WA 12:34 AM
-                          </p>
-                        </td>
-                        <td className="td-actions text-right">
-                          <Button
-                            color="link"
-                            id="tooltip217595172"
-                            title=""
-                            type="button"
-                          >
-                            <i className="tim-icons icon-pencil" />
-                          </Button>
-                          <UncontrolledTooltip
-                            delay={0}
-                            target="tooltip217595172"
-                            placement="right"
-                          >
-                            Edit Task
-                          </UncontrolledTooltip>
-                        </td>
-                      </tr>
+                      {
+                        news &&
+                        news.map((newsItem, index) => {
+                          return (
+                            <tr key={index}>
+                              <td>{newsItem.author}</td>
+                              <td>{newsItem.text}</td>
+                              <td>{newsItem.namespace}</td>
+                              <td>{newsItem.entity}</td>
+                            </tr>
+                          );
+
+                        })
+                      }
                     </tbody>
                   </Table>
                 </div>
