@@ -117,7 +117,7 @@ const getMessageBoardId = async ( {stock}, callback) => {
     url: 'https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/v2/get-quotes',
     params: {region: 'US', symbols: stock},
     headers: {
-      'x-rapidapi-key': '056809759amshf0e6e98e9ea6c10p1bd76djsn21163bf07906',
+      'x-rapidapi-key': process.env.RAPID_API_KEY,
       'x-rapidapi-host': 'apidojo-yahoo-finance-v1.p.rapidapi.com'
     }
   };
