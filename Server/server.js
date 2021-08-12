@@ -1,27 +1,46 @@
-const extraRouter = require('./routes/extraRouter');
-
-const express = require('express')
-const cors = require("cors");
-
+import express from 'express';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import stocksRouter from './routes/stocksRouter.js';
 const app = express()
+dotenv.config();
 
-// serve your css as static
-app.use(express.static(__dirname+'/static'));
+
+
 
 app.use(express.urlencoded({extended: false}))
 app.use(express.json()) // To parse the incoming requests with JSON payloads
 
 app.use(cors());
 app.get('/', async (req, res) => {
-    console.log(__dirname +'/static/index.html');
-    res.sendFile(__dirname + "/static/index.html");
-    
+    /*
+    var options = {
+        method: 'GET',
+        url: 'https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v3/get-historical-data',
+        params: {region: 'US', lang: 'en-US', count: '6', start: '0'},
+        headers: {
+          'x-rapidapi-key': process.env.RAPID_API_KEY,
+          'x-rapidapi-host': 'apidojo-yahoo-finance-v1.p.rapidapi.com'
+        }
+      };
+      
+      axios.request(options).then(function (response) {
 
+          console.log(response.data);
+          //console.log(response.data.finance);
+          console.log('response data finance');
+          console.log(response.data.finance);
+      }).catch(function (error) {
+          console.error(error);
+      });
+*/
     
    
 });
 
-app.use('/extra', extraRouter);
+
+app.use('/stocks/', stocksRouter);
 
 
 app.listen(5000, () => {
