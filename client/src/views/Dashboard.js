@@ -325,7 +325,7 @@ function Dashboard(props) {
           </Col>
         </Row>
         <Row>
-          <Col lg="4">
+          <Col lg="6">
             <Card className="card-chart">
               <CardHeader>
                 <h5 className="card-category">{query && <h5>{query}</h5>}</h5>
@@ -342,7 +342,7 @@ function Dashboard(props) {
               </CardBody>
             </Card>
           </Col>
-          <Col lg="4">
+          <Col lg="6">
             <Card className="card-chart">
               <CardHeader>
                 <h5 className="card-category">Financials</h5>
@@ -366,60 +366,15 @@ function Dashboard(props) {
               </CardBody>
             </Card>
           </Col>
-          <Col lg="4">
-            <Card className="card-chart">
-              <CardHeader>
-                <h5 className="card-category">Completed Tasks</h5>
-                <CardTitle tag="h3">
-                  <i className="tim-icons icon-send text-success" /> 12,100K
-                </CardTitle>
-              </CardHeader>
-              <CardBody>
-                <div className="chart-area">
-                
-                </div>
-              </CardBody>
-            </Card>
-          </Col>
+          
         </Row>
         <Row>
-          <Col lg="6" md="12">
+          <Col xs="12" md="12">
             <Card className="card-tasks">
               <CardHeader>
-                <h6 className="title d-inline">Tasks(5)</h6>
-                <p className="card-category d-inline"> today</p>
-                <UncontrolledDropdown>
-                  <DropdownToggle
-                    caret
-                    className="btn-icon"
-                    color="link"
-                    data-toggle="dropdown"
-                    type="button"
-                  >
-                    <i className="tim-icons icon-settings-gear-63" />
-                  </DropdownToggle>
-                  <DropdownMenu aria-labelledby="dropdownMenuLink" right>
-                    <DropdownItem
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
-                    >
-                      Action
-                    </DropdownItem>
-                    
-                    <DropdownItem
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
-                    >
-                      Another action
-                    </DropdownItem>
-                    <DropdownItem
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
-                    >
-                      Something else
-                    </DropdownItem>
-                  </DropdownMenu>
-                </UncontrolledDropdown>
+                <h6 className="title d-inline">The talk about </h6>
+                <p className="card-category d-inline">{query && query} </p>
+                
               </CardHeader>
               <CardBody>
                 <div className="table-full-width table-responsive">
@@ -445,40 +400,7 @@ function Dashboard(props) {
               </CardBody>
             </Card>
           </Col>
-          <Col lg="6" md="12">
-            <Card>
-              <CardHeader>
-                <CardTitle tag="h4">Simple Table</CardTitle>
-              </CardHeader>
-              <CardBody>
-                <Table className="tablesorter" responsive>
-                  <thead className="text-primary">
-                    <tr>
-                      <th>Name</th>
-                      <th>Country</th>
-                      <th>City</th>
-                      <th className="text-center">Salary</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Dakota Rice</td>
-                      <td>Niger</td>
-                      <td>Oud-Turnhout</td>
-                      <td className="text-center">$36,738</td>
-                    </tr>
-                    <tr>
-                      <td>Minerva Hooper</td>
-                      <td>Curaçao</td>
-                      <td>Sinaai-Waas</td>
-                      <td className="text-center">$23,789</td>
-                    </tr>
-                   
-                  </tbody>
-                </Table>
-              </CardBody>
-            </Card>
-          </Col>
+          
         </Row>
       </div>
     </>

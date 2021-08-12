@@ -22,20 +22,10 @@ var routes = [
   {
     path: "/dashboard",
     name: "Dashboard",
-    rtlName: "لوحة القيادة",
     icon: "tim-icons icon-chart-pie-36",
     component: Dashboard,
     layout: "/admin",
   },
-  {
-    path: "/stocks",
-    name: "Stocks",
-    rtlName: "الرموز",
-    icon: "tim-icons icon-spaceship",
-    component: Stocks,
-    layout: "/admin",
-  },
- 
  
 ];
 export default routes;
